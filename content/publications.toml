@@ -1,4 +1,4 @@
 type = "publication"
 title = "Publications"
-description = "Peer-reviewed journal articles and conference papers on prognostics, reliability, fault diagnosis, and remaining useful life prediction."
+description = "Journal and conference papers on system reliability optimization, prognostics and health management, and uncertainty quantification."
 source = "publications.bib"

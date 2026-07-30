@@ -49,7 +49,7 @@ export default function Profile({ author, social, features, researchInterests }:
     useEffect(() => {
         if (!features.enable_likes) return;
 
-        const userHasLiked = localStorage.getItem('jiale-website-user-liked');
+        const userHasLiked = localStorage.getItem('wei-wang-academic-homepage-liked');
         if (userHasLiked === 'true') {
             setHasLiked(true);
         }
@@ -60,11 +60,11 @@ export default function Profile({ author, social, features, researchInterests }:
         setHasLiked(newLikedState);
 
         if (newLikedState) {
-            localStorage.setItem('jiale-website-user-liked', 'true');
+            localStorage.setItem('wei-wang-academic-homepage-liked', 'true');
             setShowThanks(true);
             setTimeout(() => setShowThanks(false), 2000);
         } else {
-            localStorage.removeItem('jiale-website-user-liked');
+            localStorage.removeItem('wei-wang-academic-homepage-liked');
             setShowThanks(false);
         }
     };
@@ -269,7 +269,7 @@ export default function Profile({ author, social, features, researchInterests }:
                                                         </div>
                                                     )}
                                                 </div>
-                                                <p className="break-words">{social.email?.replace('@', ' (at) ')}</p>
+                                                <p className="break-words">{social.email}</p>
                                                 <div className="mt-2">
                                                     <a
                                                         href={link.href}

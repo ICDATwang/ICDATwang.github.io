@@ -6,12 +6,18 @@
 
 **Chang'an University**, B.S. in Mechatronics Engineering
 
+## Work Experience
+
+**ZTE Corporation**, Data Analyst
+
+**iFLYTEK**, Algorithm Engineer
+
 ## Research Interests
 
+- System reliability optimization
 - Prognostics and health management of industrial systems
 - Remaining useful life prediction
-- Uncertainty quantification and uncertainty-aware learning
-- Reliability engineering and intelligent fault diagnosis
+- Uncertainty quantification
 
 ## Contact
 

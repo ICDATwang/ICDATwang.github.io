@@ -3,8 +3,8 @@ title = "About"
 
 [profile]
 research_interests = [
+  "System Reliability Optimization",
   "Prognostics and Health Management",
-  "Remaining Useful Life Prediction",
   "Uncertainty Quantification"
 ]
 

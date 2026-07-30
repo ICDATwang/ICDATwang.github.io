@@ -1,19 +1,12 @@
 [site]
 title = "王伟 | 学术主页"
-description = "王伟是西北工业大学机械工程专业博士研究生，主要研究工业系统故障预测与健康管理以及不确定性感知的剩余使用寿命预测。"
+description = "王伟是西北工业大学机械工程专业博士研究生，主要研究系统可靠性优化、故障预测与健康管理以及不确定性量化。"
 last_updated = "2026年7月30日"
 
 [author]
 name = "王伟"
-title = "机械工程博士研究生"
-institution = "西北工业大学机电学院"
-
-[social]
-location = "陕西西安"
-location_details = [
-  "西北工业大学机电学院",
-  "陕西省西安市"
-]
+title = "博士研究生"
+institution = "西北工业大学"
 
 [[navigation]]
 title = "关于"

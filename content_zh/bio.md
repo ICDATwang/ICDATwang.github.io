@@ -1,3 +1,3 @@
-王伟本科毕业于长安大学机械电子工程专业，获工学学士学位；随后在西北工业大学获得机械工程硕士学位，现于西北工业大学攻读机械工程博士学位。
+王伟本科毕业于长安大学机械电子工程专业，获工学学士学位；随后于西北工业大学获得机械工程硕士学位，现为西北工业大学机械工程专业博士研究生，导师为蔡志强教授。2025年9月至2026年8月，作为国家公派联合培养博士研究生赴意大利米兰理工大学开展合作研究，合作导师为 Enrico Zio 教授。此外，曾先后就职于中兴通讯和科大讯飞，分别担任数据分析师和算法工程师。
 
-他的研究方向为工业系统故障预测与健康管理（PHM），重点关注不确定性感知的剩余使用寿命（RUL）预测。
+主要研究方向包括系统可靠性优化、故障预测与健康管理。曾获2024年度博士研究生国家奖学金，主持西北工业大学博士论文创新基金项目。近年来，在 *IEEE Transactions on Reliability*、*Reliability Engineering & System Safety* 等国际期刊发表学术论文十余篇，并担任 *Reliability Engineering & System Safety*、*Engineering Applications of Artificial Intelligence*、*Measurement*、*Neurocomputing* 等期刊审稿人。相关研究成果获亚太可靠性与维修建模国际研讨会（APARM）最佳学生论文奖（Best Student Paper Award），以及 IEEE Global Reliability and Prognostics and Health Management Conference 优秀论文奖（Excellent Paper Award）。

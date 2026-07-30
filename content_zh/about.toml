@@ -3,8 +3,8 @@ title = "关于"
 
 [profile]
 research_interests = [
+  "系统可靠性优化",
   "故障预测与健康管理",
-  "剩余使用寿命预测",
   "不确定性量化"
 ]
 
