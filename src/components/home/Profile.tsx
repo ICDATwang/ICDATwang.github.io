@@ -413,7 +413,7 @@ export default function Profile({ author, social, features, researchInterests }:
                         aria-label={hasLiked ? messages.profile.liked : messages.profile.like}
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.985 }}
-                        className={`group relative w-full overflow-hidden rounded-2xl border p-3.5 text-left shadow-sm transition-[border-color,box-shadow,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70 dark:focus-visible:ring-offset-neutral-900 ${
+                        className={`group relative w-full overflow-hidden rounded-2xl border p-3 text-left shadow-sm transition-[border-color,box-shadow,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70 dark:focus-visible:ring-offset-neutral-900 ${
                             hasLiked
                                 ? 'border-rose-200/80 bg-gradient-to-br from-rose-50 via-white to-amber-50 shadow-rose-100/70 dark:border-rose-800/50 dark:from-rose-950/35 dark:via-neutral-800 dark:to-amber-950/20'
                                 : 'border-neutral-200 bg-gradient-to-br from-white via-white to-amber-50/70 hover:border-rose-200 hover:shadow-lg hover:shadow-rose-100/50 dark:border-neutral-700 dark:from-neutral-800 dark:via-neutral-800 dark:to-amber-950/20 dark:hover:border-rose-800/60 dark:hover:shadow-none'
@@ -457,13 +457,8 @@ export default function Profile({ author, social, features, researchInterests }:
                                 </AnimatePresence>
                             </span>
 
-                            <span className="min-w-0 flex-1">
-                                <span className="block text-sm font-semibold leading-5 text-primary">
-                                    {hasLiked ? messages.profile.likedPrompt : messages.profile.likePrompt}
-                                </span>
-                                <span className="mt-0.5 block text-xs leading-4 text-neutral-500 dark:text-neutral-400">
-                                    {hasLiked ? messages.profile.likedHint : messages.profile.likeHint}
-                                </span>
+                            <span className="min-w-0 flex-1 text-sm font-medium text-primary">
+                                {hasLiked ? messages.profile.liked : messages.profile.like}
                             </span>
 
                             <span
@@ -479,19 +474,6 @@ export default function Profile({ author, social, features, researchInterests }:
                             </span>
                         </span>
                     </motion.button>
-
-                    <AnimatePresence>
-                        {showThanks && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 6, scale: 0.9 }}
-                                animate={{ opacity: 1, y: -8, scale: 1 }}
-                                exit={{ opacity: 0, y: -16, scale: 0.95 }}
-                                className="pointer-events-none absolute -top-7 right-3 z-10 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-background shadow-lg"
-                            >
-                                {messages.profile.thanks} ✨
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
                 </div>
             )}
         </motion.div>
