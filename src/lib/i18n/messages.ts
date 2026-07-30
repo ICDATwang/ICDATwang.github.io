@@ -24,6 +24,11 @@ export interface LocaleMessages {
     researchInterests: string;
     like: string;
     liked: string;
+    likePrompt: string;
+    likedPrompt: string;
+    likeHint: string;
+    likedHint: string;
+    likeCountLabel: string;
     thanks: string;
   };
   home: {
@@ -74,6 +79,11 @@ const en: LocaleMessages = {
     researchInterests: 'Research Interests',
     like: 'Like',
     liked: 'Liked',
+    likePrompt: 'Enjoying this page?',
+    likedPrompt: 'Thank you for your support',
+    likeHint: 'Tap the heart to support my work',
+    likedHint: 'Tap again to remove your like',
+    likeCountLabel: 'likes',
     thanks: 'Thanks!',
   },
   home: {
@@ -124,6 +134,11 @@ const zh: LocaleMessages = {
     researchInterests: '研究兴趣',
     like: '点赞',
     liked: '已点赞',
+    likePrompt: '喜欢这个学术主页？',
+    likedPrompt: '感谢您的支持',
+    likeHint: '点亮爱心，为我的学术主页点赞',
+    likedHint: '再次点击可取消点赞',
+    likeCountLabel: '点赞',
     thanks: '感谢支持！',
   },
   home: {

@@ -405,45 +405,93 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Like Button */}
             {features.enable_likes && (
-                <div className="flex justify-center">
-                    <div className="relative">
-                        <motion.button
-                            onClick={handleLike}
-                            disabled={isLikeLoading}
-                            aria-pressed={hasLiked}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 disabled:cursor-wait disabled:opacity-70 ${hasLiked
-                                ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
-                                : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
-                                }`}
-                        >
-                            {hasLiked ? (
-                                <HeartSolidIcon className="h-4 w-4" />
-                            ) : (
-                                <HeartIcon className="h-4 w-4" />
-                            )}
-                            <span>
-                                {hasLiked ? messages.profile.liked : messages.profile.like}
-                                {likeCount !== null ? ` · ${likeCount}` : ''}
-                            </span>
-                        </motion.button>
+                <div className="relative">
+                    <motion.button
+                        onClick={handleLike}
+                        disabled={isLikeLoading}
+                        aria-pressed={hasLiked}
+                        aria-label={hasLiked ? messages.profile.liked : messages.profile.like}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.985 }}
+                        className={`group relative w-full overflow-hidden rounded-2xl border p-3.5 text-left shadow-sm transition-[border-color,box-shadow,background-color] duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-wait disabled:opacity-70 dark:focus-visible:ring-offset-neutral-900 ${
+                            hasLiked
+                                ? 'border-rose-200/80 bg-gradient-to-br from-rose-50 via-white to-amber-50 shadow-rose-100/70 dark:border-rose-800/50 dark:from-rose-950/35 dark:via-neutral-800 dark:to-amber-950/20'
+                                : 'border-neutral-200 bg-gradient-to-br from-white via-white to-amber-50/70 hover:border-rose-200 hover:shadow-lg hover:shadow-rose-100/50 dark:border-neutral-700 dark:from-neutral-800 dark:via-neutral-800 dark:to-amber-950/20 dark:hover:border-rose-800/60 dark:hover:shadow-none'
+                        }`}
+                    >
+                        <span
+                            aria-hidden="true"
+                            className="absolute -right-8 -top-10 h-28 w-28 rounded-full bg-gradient-to-br from-rose-200/35 to-amber-200/25 blur-2xl transition-opacity duration-300 group-hover:opacity-100 dark:from-rose-700/20 dark:to-amber-700/10"
+                        />
 
-                        {/* Thanks bubble */}
-                        <AnimatePresence>
-                            {showThanks && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                                    animate={{ opacity: 1, y: -10, scale: 1 }}
-                                    exit={{ opacity: 0, y: -20, scale: 0.8 }}
-                                    className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-full bg-accent text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg whitespace-nowrap"
+                        <span className="relative flex items-center gap-3">
+                            <span
+                                className={`relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full shadow-sm transition-all duration-300 ${
+                                    hasLiked
+                                        ? 'bg-gradient-to-br from-rose-500 to-red-500 text-white shadow-rose-200 dark:shadow-none'
+                                        : 'border border-rose-100 bg-white text-rose-500 group-hover:border-rose-200 group-hover:bg-rose-50 dark:border-neutral-700 dark:bg-neutral-900 dark:text-rose-400 dark:group-hover:border-rose-800 dark:group-hover:bg-rose-950/40'
+                                }`}
+                            >
+                                <motion.span
+                                    animate={hasLiked ? { scale: [1, 1.28, 1], rotate: [0, -8, 8, 0] } : { scale: 1, rotate: 0 }}
+                                    transition={{ duration: 0.45, ease: 'easeOut' }}
                                 >
-                                    {messages.profile.thanks} 😊
-                                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-accent"></div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                                    {hasLiked ? (
+                                        <HeartSolidIcon className="h-5 w-5" />
+                                    ) : (
+                                        <HeartIcon className="h-5 w-5" />
+                                    )}
+                                </motion.span>
+
+                                <AnimatePresence>
+                                    {showThanks && (
+                                        <motion.span
+                                            aria-hidden="true"
+                                            initial={{ opacity: 0.8, scale: 0.5 }}
+                                            animate={{ opacity: 0, scale: 2 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.7, ease: 'easeOut' }}
+                                            className="absolute inset-0 rounded-full border-2 border-rose-300"
+                                        />
+                                    )}
+                                </AnimatePresence>
+                            </span>
+
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-sm font-semibold leading-5 text-primary">
+                                    {hasLiked ? messages.profile.likedPrompt : messages.profile.likePrompt}
+                                </span>
+                                <span className="mt-0.5 block text-xs leading-4 text-neutral-500 dark:text-neutral-400">
+                                    {hasLiked ? messages.profile.likedHint : messages.profile.likeHint}
+                                </span>
+                            </span>
+
+                            <span
+                                className="min-w-[4.25rem] shrink-0 rounded-xl border border-white/80 bg-white/80 px-2.5 py-2 text-center shadow-sm backdrop-blur-sm dark:border-neutral-700 dark:bg-neutral-900/70"
+                                aria-live="polite"
+                            >
+                                <span className={`block text-lg font-bold leading-none tabular-nums ${hasLiked ? 'text-rose-600 dark:text-rose-400' : 'text-primary'}`}>
+                                    {likeCount !== null ? likeCount.toLocaleString() : '—'}
+                                </span>
+                                <span className="mt-1 block text-[10px] font-medium uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                                    {messages.profile.likeCountLabel}
+                                </span>
+                            </span>
+                        </span>
+                    </motion.button>
+
+                    <AnimatePresence>
+                        {showThanks && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                                animate={{ opacity: 1, y: -8, scale: 1 }}
+                                exit={{ opacity: 0, y: -16, scale: 0.95 }}
+                                className="pointer-events-none absolute -top-7 right-3 z-10 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-background shadow-lg"
+                            >
+                                {messages.profile.thanks} ✨
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             )}
         </motion.div>
