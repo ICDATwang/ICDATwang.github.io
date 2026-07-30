@@ -1,7 +1,15 @@
 [[news]]
-date = "2025-11"
-content = "Our work has been accepted by a prestigious journal 🎉"
+date = "2026-07"
+content = "The publication list has been updated with the latest Scopus-indexed work."
 
 [[news]]
-date = "2025-09"
-content = "Starting my PhD at the University of Example"
+date = "2026"
+content = "Our work on uncertainty-aware continuous RUL prediction was published in IEEE Transactions on Reliability."
+
+[[news]]
+date = "2025"
+content = "Our work on robust uncertainty quantification for online RUL prediction was published in Reliability Engineering & System Safety."
+
+[[news]]
+date = "2024"
+content = "Our work on diffusion-based data augmentation for aero-engine RUL estimation was published in Reliability Engineering & System Safety."

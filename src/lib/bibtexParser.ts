@@ -3,8 +3,109 @@ import { getConfig } from './config';
 import { getRuntimeI18nConfig } from './i18n/config';
 import { parseBibTeXInline } from './bibtexInline';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const bibtexParse = require('bibtex-parse-js');
+interface ParsedBibTeXEntry {
+  entryType: string;
+  citationKey: string;
+  entryTags: Record<string, string>;
+}
+
+function parseBracedValue(input: string, start: number): { value: string; next: number } {
+  let depth = 1;
+  let index = start + 1;
+  const valueStart = index;
+
+  while (index < input.length && depth > 0) {
+    const char = input[index];
+    if (char === '{') depth += 1;
+    if (char === '}') depth -= 1;
+    index += 1;
+  }
+
+  return {
+    value: input.slice(valueStart, Math.max(valueStart, index - 1)).trim(),
+    next: index,
+  };
+}
+
+function parseQuotedValue(input: string, start: number): { value: string; next: number } {
+  let index = start + 1;
+  const valueStart = index;
+
+  while (index < input.length) {
+    if (input[index] === '"' && input[index - 1] !== '\\') {
+      return { value: input.slice(valueStart, index).trim(), next: index + 1 };
+    }
+    index += 1;
+  }
+
+  return { value: input.slice(valueStart).trim(), next: input.length };
+}
+
+function parseBibTeXEntries(input: string): ParsedBibTeXEntry[] {
+  const entries: ParsedBibTeXEntry[] = [];
+  let cursor = 0;
+
+  while (cursor < input.length) {
+    const atIndex = input.indexOf('@', cursor);
+    if (atIndex === -1) break;
+
+    const headerMatch = input.slice(atIndex).match(/^@([A-Za-z]+)\s*([{(])/);
+    if (!headerMatch) {
+      cursor = atIndex + 1;
+      continue;
+    }
+
+    const entryType = headerMatch[1].toLowerCase();
+    const opening = headerMatch[2];
+    const closing = opening === '{' ? '}' : ')';
+    let index = atIndex + headerMatch[0].length;
+    const keyEnd = input.indexOf(',', index);
+    if (keyEnd === -1) break;
+
+    const citationKey = input.slice(index, keyEnd).trim();
+    index = keyEnd + 1;
+    const entryTags: Record<string, string> = {};
+
+    while (index < input.length) {
+      while (index < input.length && /[\s,]/.test(input[index])) index += 1;
+      if (input[index] === closing) {
+        index += 1;
+        break;
+      }
+
+      const fieldMatch = input.slice(index).match(/^([A-Za-z][A-Za-z0-9_-]*)\s*=/);
+      if (!fieldMatch) {
+        index += 1;
+        continue;
+      }
+
+      const fieldName = fieldMatch[1].toLowerCase();
+      index += fieldMatch[0].length;
+      while (index < input.length && /\s/.test(input[index])) index += 1;
+
+      let parsedValue: { value: string; next: number };
+      if (input[index] === '{') {
+        parsedValue = parseBracedValue(input, index);
+      } else if (input[index] === '"') {
+        parsedValue = parseQuotedValue(input, index);
+      } else {
+        const valueEnd = input.slice(index).search(/[,}\)]/);
+        const end = valueEnd === -1 ? input.length : index + valueEnd;
+        parsedValue = { value: input.slice(index, end).trim(), next: end };
+      }
+
+      entryTags[fieldName] = parsedValue.value;
+      index = parsedValue.next;
+    }
+
+    if (citationKey) {
+      entries.push({ entryType, citationKey, entryTags });
+    }
+    cursor = index;
+  }
+
+  return entries;
+}
 
 // Map BibTeX entry types to our publication types
 const typeMapping: Record<string, PublicationType> = {
@@ -38,7 +139,7 @@ const monthMapping: Record<string, number> = {
 
 export function parseBibTeX(bibtexContent: string, locale?: string): Publication[] {
   const highlightNames = getHighlightNames(locale);
-  const entries = bibtexParse.toJSON(bibtexContent);
+  const entries = parseBibTeXEntries(bibtexContent);
 
   return entries.map((entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, index: number) => {
     const tags = entry.entryTags;
@@ -233,7 +334,8 @@ function parseAuthors(authorsStr: string, highlightNames: string[]): Array<{ nam
 function cleanBibTeXString(str?: string): string {
   if (!str) return '';
 
-  return parseBibTeXInline(str).plainText;
+  const unescaped = str.replace(/\\([&%$#_{}])/g, '$1');
+  return parseBibTeXInline(unescaped).plainText;
 }
 
 function detectResearchArea(title: string, keywords: string[]): ResearchArea {

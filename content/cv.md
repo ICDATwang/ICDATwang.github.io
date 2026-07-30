@@ -1,26 +1,20 @@
 ## Education
 
-**The University of Example**, PhD in Natural Science, *2025 - Present*
-- Research focus: Mathematical Principles of Natural Philosophy
-- Supervisor: Prof. Advisor One and Dr. Advisor Two
+**Northwestern Polytechnical University**, Ph.D. Candidate in Mechanical Engineering
 
-**The University of Example**, BSc in Natural Science, *2021 - 2025*
-- Graduated with First Class Honours
+**Northwestern Polytechnical University**, M.S. in Mechanical Engineering
 
-## Experience
+**Chang'an University**, B.S. in Mechatronics Engineering
 
-**Example Role**
-Company/Institution
-*2023 - 2024*
-- Description of key responsibilities and achievements.
-- Utilized skills to solve problems.
+## Research Interests
 
-## Skills
+- Prognostics and health management of industrial systems
+- Remaining useful life prediction
+- Uncertainty quantification and uncertainty-aware learning
+- Reliability engineering and intelligent fault diagnosis
 
-- **Programming:** Python, C++, MATLAB, LaTeX
-- **Data Analysis:** Pandas, NumPy, SciPy
-- **Languages:** English (Native), French (Fluent)
+## Contact
 
-## Awards & Honors
-
-- **First Prize in Example Competition** - Committee of Example (*2024*)
+- **Email:** [icdat_wang@mail.nwpu.edu.cn](mailto:icdat_wang@mail.nwpu.edu.cn)
+- **Google Scholar:** [Profile](https://scholar.google.com/citations?user=v4eVZiYAAAAJ&hl=zh-CN)
+- **ORCID:** [0009-0000-6090-3699](https://orcid.org/0009-0000-6090-3699)

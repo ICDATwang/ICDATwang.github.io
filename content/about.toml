@@ -3,9 +3,9 @@ title = "About"
 
 [profile]
 research_interests = [
-  "Computational Physics",
-  "Mathematical Principles",
-  "Proof of Theorems"
+  "Prognostics and Health Management",
+  "Remaining Useful Life Prediction",
+  "Uncertainty Quantification"
 ]
 
 [[sections]]
@@ -26,4 +26,3 @@ id = "news"
 type = "list"
 title = "News"
 source = "news.toml"
-

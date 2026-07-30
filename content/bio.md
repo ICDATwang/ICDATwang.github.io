@@ -1,5 +1,3 @@
-I am a PhD student at the School of Science, University of Example, advised by [Prof. Advisor One](https://example.com) and [Dr. Advisor Two](https://example.com).
+Wei Wang received the B.S. degree in Mechatronics Engineering from Chang'an University, Xi'an, China, and the M.S. degree in Mechanical Engineering from Northwestern Polytechnical University (NPU), Xi'an, China, where he is currently pursuing the Ph.D. degree in Mechanical Engineering.
 
-Prior to this, I obtained a BSc degree with First Class Honours in Natural Science from the University of Example.
-
-My current research focuses on investigating the mathematical principles of natural philosophy.
+His research interests lie in prognostics and health management (PHM) of industrial systems, with a particular emphasis on uncertainty-aware remaining useful life (RUL) prediction.
