@@ -17,6 +17,7 @@ orcid = "https://orcid.org/0009-0000-6090-3699"
 
 [features]
 enable_likes = true
+likes_api_url = "https://weiwang-homepage-likes-api.icdat-wang.workers.dev"
 enable_one_page_mode = false
 
 [i18n]

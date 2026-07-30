@@ -1,0 +1,17 @@
+{
+	"name": "weiwang-homepage-likes-api",
+	"main": "src/index.js",
+	"compatibility_date": "2026-07-29",
+	"workers_dev": true,
+	"observability": {
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "weiwang-homepage-likes",
+			"database_id": "5a646729-bb2f-44ea-971c-698ed81a4140",
+			"migrations_dir": "migrations"
+		}
+	]
+}

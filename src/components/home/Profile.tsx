@@ -38,6 +38,8 @@ export default function Profile({ author, social, features, researchInterests }:
     const messages = useMessages();
 
     const [hasLiked, setHasLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState<number | null>(null);
+    const [isLikeLoading, setIsLikeLoading] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
     const [showAddress, setShowAddress] = useState(false);
     const [isAddressPinned, setIsAddressPinned] = useState(false);
@@ -49,23 +51,109 @@ export default function Profile({ author, social, features, researchInterests }:
     useEffect(() => {
         if (!features.enable_likes) return;
 
-        const userHasLiked = localStorage.getItem('wei-wang-academic-homepage-liked');
-        if (userHasLiked === 'true') {
-            setHasLiked(true);
+        const localLikeKey = 'wei-wang-academic-homepage-liked';
+        const visitorKey = 'wei-wang-academic-homepage-visitor-id';
+        const localLikeState = localStorage.getItem(localLikeKey) === 'true';
+
+        if (!features.likes_api_url) {
+            setHasLiked(localLikeState);
+            return;
         }
-    }, [features.enable_likes]);
 
-    const handleLike = () => {
+        let visitorId = localStorage.getItem(visitorKey);
+        if (!visitorId) {
+            visitorId = crypto.randomUUID();
+            localStorage.setItem(visitorKey, visitorId);
+        }
+
+        const controller = new AbortController();
+        const apiUrl = features.likes_api_url.replace(/\/$/, '');
+
+        fetch(`${apiUrl}/likes?page=homepage&visitor=${encodeURIComponent(visitorId)}`, {
+            headers: { Accept: 'application/json' },
+            signal: controller.signal,
+        })
+            .then((response) => {
+                if (!response.ok) throw new Error('Unable to load like count.');
+                return response.json() as Promise<{ count: number; liked: boolean }>;
+            })
+            .then((data) => {
+                setLikeCount(data.count);
+                setHasLiked(data.liked);
+                if (data.liked) {
+                    localStorage.setItem(localLikeKey, 'true');
+                } else {
+                    localStorage.removeItem(localLikeKey);
+                }
+            })
+            .catch((error: Error) => {
+                if (error.name !== 'AbortError') {
+                    setHasLiked(localLikeState);
+                }
+            });
+
+        return () => controller.abort();
+    }, [features.enable_likes, features.likes_api_url]);
+
+    const handleLike = async () => {
         const newLikedState = !hasLiked;
-        setHasLiked(newLikedState);
+        const localLikeKey = 'wei-wang-academic-homepage-liked';
 
-        if (newLikedState) {
-            localStorage.setItem('wei-wang-academic-homepage-liked', 'true');
-            setShowThanks(true);
-            setTimeout(() => setShowThanks(false), 2000);
-        } else {
-            localStorage.removeItem('wei-wang-academic-homepage-liked');
+        if (!features.likes_api_url) {
+            setHasLiked(newLikedState);
+            if (newLikedState) {
+                localStorage.setItem(localLikeKey, 'true');
+                setShowThanks(true);
+                setTimeout(() => setShowThanks(false), 2000);
+            } else {
+                localStorage.removeItem(localLikeKey);
+                setShowThanks(false);
+            }
+            return;
+        }
+
+        const visitorKey = 'wei-wang-academic-homepage-visitor-id';
+        let visitorId = localStorage.getItem(visitorKey);
+        if (!visitorId) {
+            visitorId = crypto.randomUUID();
+            localStorage.setItem(visitorKey, visitorId);
+        }
+
+        setIsLikeLoading(true);
+
+        try {
+            const apiUrl = features.likes_api_url.replace(/\/$/, '');
+            const response = await fetch(`${apiUrl}/likes`, {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    page: 'homepage',
+                    visitorId,
+                    liked: newLikedState,
+                }),
+            });
+
+            if (!response.ok) throw new Error('Unable to update like count.');
+
+            const data = await response.json() as { count: number; liked: boolean };
+            setLikeCount(data.count);
+            setHasLiked(data.liked);
+
+            if (data.liked) {
+                localStorage.setItem(localLikeKey, 'true');
+                setShowThanks(true);
+                setTimeout(() => setShowThanks(false), 2000);
+            } else {
+                localStorage.removeItem(localLikeKey);
+                setShowThanks(false);
+            }
+        } catch {
             setShowThanks(false);
+        } finally {
+            setIsLikeLoading(false);
         }
     };
 
@@ -321,9 +409,11 @@ export default function Profile({ author, social, features, researchInterests }:
                     <div className="relative">
                         <motion.button
                             onClick={handleLike}
+                            disabled={isLikeLoading}
+                            aria-pressed={hasLiked}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${hasLiked
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 disabled:cursor-wait disabled:opacity-70 ${hasLiked
                                 ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400'
                                 : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-500 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 cursor-pointer'
                                 }`}
@@ -333,7 +423,10 @@ export default function Profile({ author, social, features, researchInterests }:
                             ) : (
                                 <HeartIcon className="h-4 w-4" />
                             )}
-                            <span>{hasLiked ? messages.profile.liked : messages.profile.like}</span>
+                            <span>
+                                {hasLiked ? messages.profile.liked : messages.profile.like}
+                                {likeCount !== null ? ` · ${likeCount}` : ''}
+                            </span>
                         </motion.button>
 
                         {/* Thanks bubble */}
